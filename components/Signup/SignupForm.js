@@ -69,7 +69,7 @@ function SignUpForm() {
                 className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded focus:outline-none focus:shadow-outline font-mono text-xl"
                 type="submit"
               >
-                S inscrire
+                S&apos;inscrire
               </button>
             </div>
           </form>
