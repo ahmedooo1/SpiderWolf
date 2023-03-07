@@ -1,10 +1,21 @@
-function LoginForm() {
+// import { signIn } from 'next-auth/client'
+import { useForm } from "react-hook-form";
+
+
+export default function LoginForm() {
+  const { register, handleSubmit } = useForm();
+
+  const handleLogin = async e => {
+    e.preventDefault()
+
+  }
+
   return (
     <div className="bg-gray-900 h-screen w-screen flex items-center justify-center">
       <div className="w-full max-w-sm">
         <form className="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
-            <label className="block text-white  mb-2 text-xl" for="username">
+            <label className="block text-white  mb-2 text-xl" htmlFor="username">
               Nom d&apos;utilisateur
             </label>
             <input
@@ -16,7 +27,7 @@ function LoginForm() {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-white   mb-2 text-xl" for="password">
+            <label className="block text-white   mb-2 text-xl" htmlFor="password">
               Mot de passe
             </label>
             <input
@@ -47,5 +58,3 @@ function LoginForm() {
     </div>
   );
 }
-
-export default LoginForm

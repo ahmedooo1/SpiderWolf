@@ -33,12 +33,12 @@ function headerComponent() {
 
 
       <div className="hover:bg-gray-600 rounded-md active:bg-slate-700 px-3 py-1  cursor-pointer mx-2 bg-slate-900">
-        <Link href='/login' legacyBehavior passHref>
+        <Link href='/auth/login' legacyBehavior passHref>
           <a>Login</a>
         </Link>
       </div>
       <div className="hover:bg-gray-600 rounded-md active:bg-slate-700 px-3 py-1  cursor-pointer mx-2 bg-slate-900">
-        <Link href='/signup' legacyBehavior passHref>
+        <Link href='/auth/register' legacyBehavior passHref>
           <a>Sign-up</a>
         </Link>
       </div>

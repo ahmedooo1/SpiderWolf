@@ -1,26 +1,39 @@
+import { getServerSession } from "next-auth/next"
 import { useForm } from "react-hook-form";
-import axios from 'axios';
+import { getSession, signIn, useSession } from "next-auth/react"
 
 
-export default function register() {
-    const { register, watch, handleSubmit, formState: { errors } } = useForm();
+export async function getServerSideProps(context) {
+    const session = await getSession({ req: context.req })
+    if (session) {
+        console.log(session?.user.email)
+        return {
+            redirect: { destination: '/', permanent: false }
+        }
+    }
 
+    return { props: {} }
+}
+
+
+export default function login() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
-    const onSubmit = (data) => {
-        if (data.password === data.confirmPassword) {
-            axios.post('/api/auth/register', data)
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    if (error.response && error.response.status === 422) {
-                        const message = error.response.data.message;
-                        alert(message);
-                    } else {
-                        console.error(error);
-                    }
-                });
+    const onSubmit = async (data) => {
+        try {
+            const result = await signIn('credentials', {
+                redirect: false,
+                email: data.email,
+                password: data.password,
+            });
+
+            console.log(result);
+            if (result.ok) {
+
+            }
+        } catch (e) {
+            console.error(e);
         }
     };
 
@@ -28,19 +41,11 @@ export default function register() {
         <div className="bg-gray-900 py-8 sm:py-12 lg:py-16">
             <div className="max-w-md mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 <div className="text-center">
-                    <h2 className="text-lg font-medium text-gray-400 uppercase tracking-wide">Register</h2>
+                    <h2 className="text-lg font-medium text-gray-400 uppercase tracking-wide">Login</h2>
                 </div>
                 <div className="mt-8">
                     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                        <div>
-                            <label htmlFor="pseudo" className="block text-sm font-medium text-gray-400">Pseudo</label>
-                            <div className="mt-1">
-                                <input id="pseudo" name="pseudo" type="text" className="appearance-none bg-gray-800 border-gray-700 rounded-md py-2 px-3 text-base text-gray-100 w-full"
-                                    {...register("pseudo", { required: true })}
-                                    aria-invalid={errors.pseudo ? "true" : "false"} />
-                                {errors.pseudo?.type === 'required' && <p role="alert">Pseudo is required</p>}
-                            </div>
-                        </div>
+
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-400">Email</label>
                             <div className="mt-1">
@@ -64,16 +69,7 @@ export default function register() {
                                 {errors.password?.type === 'minLength' && <p role="alert">Password must have at least 8 characters</p>}
                             </div>
                         </div>
-                        <div>
-                            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-400">Confirm Password</label>
-                            <div className="mt-1">
-                                <input id="confirm-password" name="confirm-password" type="password" className="appearance-none bg-gray-800 border-gray-700 rounded-md py-2 px-3 text-base text-gray-100 w-full"
-                                    {...register("confirmPassword", { required: true, validate: (value) => value === watch("password") })}
-                                    aria-invalid={errors.confirmPassword ? "true" : "false"} />
-                                {errors.confirmPassword?.type === 'required' && <p role="alert">Confirm Password is required</p>}
-                                {errors.confirmPassword?.type === 'validate' && <p role="alert">Passwords do not match</p>}
-                            </div>
-                        </div>
+
                         <div>
                             <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-gray-200 bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -81,14 +77,12 @@ export default function register() {
                                         <path fillRule="evenodd" d="M3.293 6.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 3.414V16a1 1 0 01-1.707.707L7 14.414l-2.293 2.293A1 1 0 013 15V6.414l.293.293z" clipRule="evenodd" />
                                     </svg>
                                 </span>
-                                Register
+                                Login
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
-
     )
 }

@@ -17,12 +17,10 @@ export default NextAuth({
     }),
     CredentialsProvider({
       name: 'Credentials',
-      credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'example@gmail.com' },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials) {
-        const user = await prisma.user.findUnique({ where: { email: credentials.email } });
+      type: 'credentials',
+      credentials: {},
+      async authorize(credentials, req) {
+        const user = await prisma.user.findFirst({ where: { email: credentials.email } });
         if (!user) {
           throw new Error('Invalid email or password');
         }
@@ -34,17 +32,15 @@ export default NextAuth({
       },
     }),
   ],
-  // pages: {
-  //   signIn: '/login'
-  // },
+  pages: { signIn: '/login' },
   callbacks: {
-    async jwt(token, user) {
+    async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
       }
       return token;
     },
-    async session(session, token) {
+    async session({ session, token }) {
       if (token.role) {
         session.role = token.role;
       }
