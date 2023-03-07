@@ -5,11 +5,11 @@ import WelcomeSection from './WelcomeSection';
 function HomeComponent() {
 
   return (<>
-  {/* le component principal de la page 'HOME/Accueil' */}
+    {/* le component principal de la page 'HOME/Accueil' */}
 
-            <WelcomeSection/>
+    <WelcomeSection />
 
-            <SectionCards/>
+    <SectionCards />
 
 
   </>);
