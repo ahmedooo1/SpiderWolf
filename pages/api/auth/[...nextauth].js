@@ -4,6 +4,7 @@ import prisma from '../../../lib/prismadb';
 import bcrypt from 'bcrypt';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { signOut } from 'next-auth/react';
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -32,7 +33,6 @@ export default NextAuth({
       },
     }),
   ],
-  pages: { signIn: '/login' },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

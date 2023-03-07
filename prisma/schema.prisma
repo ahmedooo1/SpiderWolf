@@ -43,7 +43,7 @@ model User {
   lastname      String?
   pseudo        String    @unique @db.VarChar(80)
   email         String    @unique @db.VarChar(120)
-  emailVerified DateTime?
+  isActivated   Boolean?  @default(false)
   password      String
   image         String?
   role          Role      @default(USER)

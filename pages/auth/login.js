@@ -1,24 +1,26 @@
 import { getServerSession } from "next-auth/next"
+import { useRouter } from 'next/router';
 import { useForm } from "react-hook-form";
-import { getSession, signIn, useSession } from "next-auth/react"
+import { getSession, signIn } from "next-auth/react"
 
 
-export async function getServerSideProps(context) {
-    const session = await getSession({ req: context.req })
+export async function getServerSideProps({ req }) {
+    const session = await getSession({ req });
+
     if (session) {
-        console.log(session?.user.email)
         return {
-            redirect: { destination: '/', permanent: false }
-        }
+            redirect: { destination: '/', permanent: false },
+        };
     }
 
-    return { props: {} }
+    return { props: {} };
 }
 
 
 export default function login() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    const router = useRouter();
 
     const onSubmit = async (data) => {
         try {
@@ -30,7 +32,7 @@ export default function login() {
 
             console.log(result);
             if (result.ok) {
-
+                router.push('/');
             }
         } catch (e) {
             console.error(e);
