@@ -6,13 +6,11 @@ function headerComponent() {
   return (<>
 
     <nav className="w-screen h-20 dark:bg-gray-800 flex justify-around items-center  relative">
-      {/* <div className=" absolute left-0 top-0 z-10 w-60 block">
-              <Image src={img} alt='logosw' className=" h-60 animate-bounce duration-500" width='400' />
-            </div> */}
+      <div className=" absolute left-0 top-0 z-10 w-60 block">
+        <Image src={img} alt='logosw' className=" h-60 animate-bounce duration-500" width='400' />
+      </div>
 
       <div className="flex  justify-around items-center w-96 relative">
-
-
 
         <div className="flex flex-row justify-between  ">
           <ul className="flex " >
@@ -43,9 +41,6 @@ function headerComponent() {
         </Link>
       </div>
     </nav>
-
-
-
 
   </>)
 }

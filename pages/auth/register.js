@@ -1,6 +1,19 @@
 import { useForm } from "react-hook-form";
 import axios from 'axios';
+import { getSession } from "next-auth/react";
 
+
+export async function getServerSideProps({ req }) {
+    const session = await getSession({ req });
+
+    if (session) {
+        return {
+            redirect: { destination: '/', permanent: false },
+        };
+    }
+
+    return { props: {} };
+}
 
 export default function register() {
     const { register, watch, handleSubmit, formState: { errors } } = useForm();
@@ -88,7 +101,5 @@ export default function register() {
                 </div>
             </div>
         </div>
-
-
     )
 }

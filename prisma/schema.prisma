@@ -10,6 +10,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Game {
+  id          String   @id @default(uuid())
+  title       String
+  developer   String?  @db.VarChar(100)
+  editor      String?  @db.VarChar(100)
+  releaseDate DateTime @db.Date
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  genre       String   @db.VarChar(255)
+  link        String   @db.VarChar(255)
+  description String?  @db.Text
+  highlighted Boolean? @default(false)
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  Videos      Video[]
+  Images      Image[]
+}
+
+model Video {
+  id        String   @id @default(uuid())
+  link      String
+  game      Game     @relation(fields: [gameId], references: [id])
+  gameId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  alt       String?
+  title     String?
+  source    String
+  game      Game     @relation(fields: [gameId], references: [id])
+  gameId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productId String?
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+  Game Game[]
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -38,19 +83,19 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  lastname      String?
-  pseudo        String    @unique @db.VarChar(80)
-  email         String    @unique @db.VarChar(120)
-  isActivated   Boolean?  @default(false)
-  password      String
-  image         String?
-  role          Role      @default(USER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
+  id          String    @id @default(cuid())
+  name        String?
+  lastname    String?
+  pseudo      String    @unique @db.VarChar(80)
+  email       String    @unique @db.VarChar(120)
+  isActivated Boolean?  @default(false)
+  password    String
+  image       String?
+  role        Role      @default(USER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  accounts    Account[]
+  sessions    Session[]
 }
 
 model VerificationToken {
