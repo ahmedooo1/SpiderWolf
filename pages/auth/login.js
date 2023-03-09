@@ -2,9 +2,9 @@ import { getServerSession } from "next-auth/next"
 import { useRouter } from 'next/router';
 import { useForm } from "react-hook-form";
 import { getSession, signIn } from "next-auth/react"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { getError } from "@/utils/error";
+
 
 
 export async function getServerSideProps({ req }) {
@@ -30,18 +30,18 @@ export default function login() {
                 email,
                 password,
             });
-            console.log(result.error)
+
             if (result.error) {
-                toast.error(getError(result.error));
+                toast.error(result.error);
             }
         } catch (err) {
-            toast.error(getError(err))
+            toast.error(result.error);
         }
     };
 
     return (
         <>
- 
+            
             <div className="bg-gray-900 py-8 sm:py-12 lg:py-16">
                 <div className="max-w-md mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                     <div className="text-center">
