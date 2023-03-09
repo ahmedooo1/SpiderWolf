@@ -41,8 +41,8 @@ const Sidebar = () => {
         <DropDown
           label="Games"
           items={[
-            { label: 'All Games', href: '/games' },
-            { label: 'New Games', href: '/games/new' },
+            { label: 'All Games', href: '/admin/games' },
+            { label: 'New Games', href: '/admin/games/new' },
           ]}
         />
       </ul>

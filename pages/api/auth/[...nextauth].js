@@ -29,7 +29,11 @@ export default NextAuth({
         if (!isValidPassword) {
           throw new Error('Invalid email or password');
         }
-        return { email: user.email };
+        return {
+          email: user.email,
+          name: user.pseudo,
+          image: user.image,
+        };
       },
     }),
   ],
