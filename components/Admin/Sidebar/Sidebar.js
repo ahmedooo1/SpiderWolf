@@ -22,7 +22,7 @@ const Sidebar = () => {
           <Link href="/admin/dashboard">
             <span className="flex items-center">
               <span className="mr-2">
-                <FaHome/>
+                <FaHome />
               </span>
               <span>Dashboard</span>
             </span>
@@ -32,13 +32,14 @@ const Sidebar = () => {
           <Link href="/admin/users">
             <span className="flex items-center">
               <span className="mr-2">
-                <FaUserFriends/>
+                <FaUserFriends />
               </span>
               <span>Users</span>
             </span>
           </Link>
         </li>
         <DropDown
+          icone="game"
           label="Games"
           items={[
             { label: 'All Games', href: '/admin/games' },

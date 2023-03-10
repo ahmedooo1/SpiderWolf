@@ -3,11 +3,9 @@ import ContactComponent from "@/components/Contact/Contact";
 function ContactPage() {
     return (
         <>
-        <ContactComponent/>
+            <ContactComponent />
         </>
-  
     );
-  }
+}
 
- export default ContactPage
-  
+export default ContactPage

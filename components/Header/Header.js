@@ -2,10 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import img from '../../public/spiderwolf-newlogo.png';
 import { useSession } from "next-auth/react"
+import Dropdown from "../Admin/Sidebar/DropDown";
+import { signOut } from "next-auth/react"
 
 function HeaderComponent() {
-  const { data: session, status } = useSession()
-  console.log(session)
+  const { data: session, status } = useSession();
   return (
     <>
       <nav className="w-screen h-20 dark:bg-gray-800 flex justify-around items-center relative">
@@ -16,23 +17,30 @@ function HeaderComponent() {
         <div className="flex justify-around items-center w-96 relative">
           <div className="flex flex-row justify-between">
             <ul className="flex">
-              <Link href='/' passHref>
-                <li className="hover:bg-gray-600 rounded-md active:bg-slate-700 px-3 py-1 cursor-pointer mx-2">Accueil</li>
-              </Link>
+              <li className="hover:bg-gray-600 rounded-md active:bg-slate-700 px-3 py-1 cursor-pointer mx-2">
+                <Link href='/' passHref>Accueil</Link>
+              </li>
               <li className="hover:bg-gray-600 rounded-md px-3 w-24 py-1 cursor-pointer mx-3">Collections</li>
-              <Link href='/apropos' passHref>
-                <li className="hover:bg-gray-600 rounded-md px-3 w-24 py-1 cursor-pointer mx-3">A propos</li>
-              </Link>
-              <Link href='/contact' passHref>
-                <li className="hover:bg-gray-600 rounded-md px-3 w-24 py-1 cursor-pointer mx-3">Contact</li>
-              </Link>
+              <li className="hover:bg-gray-600 rounded-md px-3 w-24 py-1 cursor-pointer mx-3">
+                <Link href='/apropos' passHref>A propos</Link>
+              </li>
+              <li className="hover:bg-gray-600 rounded-md px-3 w-24 py-1 cursor-pointer mx-3">
+                <Link href='/contact' passHref>Contact</Link>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="flex">
           {session ? (
-            <p>Bonjour {session.user.name}</p>
+            <Dropdown
+              icone ="user"
+              label={session.user.name}
+              items={[
+                { label: 'Profile', href: '/admin/games' },
+                { label: 'Sign Out'},
+              ]}
+            />
           ) : (
             <>
               <Link href='/auth/login' passHref>
@@ -46,8 +54,7 @@ function HeaderComponent() {
                 </div>
               </Link>
             </>
-          )
-          }
+          )}
         </div>
 
       </nav>

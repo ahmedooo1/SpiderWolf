@@ -1,25 +1,39 @@
 import { useState } from 'react';
 import { FaGamepad } from "react-icons/fa";
+import { UserIcon } from '@heroicons/react/24/outline'
+import { signOut } from "next-auth/react"
 
-const Dropdown = ({ label, items }) => {
+const Dropdown = ({ icone, label, items }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const handleItemClick = (item) => {
+
+    const handleItemClick = (item, e) => {
         setSelectedItem(item);
         setIsOpen(false);
     };
 
+    const handleSignOut = async (e) => {
+        e.preventDefault();
+        await signOut();
+    };
+
     return (
         <>
-            <li className="relative border-t border-gray-800">
+            <span className="relative border-t border-gray-800">
                 <button
-                    className="w-full h-full flex items-center justify-between px-4 py-2 text-sm font-medium text-white bg-gray-900  hover:bg-gray-800 "
+                    className="w-full h-full flex items-center justify-between px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 "
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     <div className="flex items-center">
                         <span className="mr-2">
-                            <FaGamepad />
+                            {
+                                icone === 'user' ? (
+                                    <UserIcon className="h-5 w-5 text-white" />
+                                ) : icone === 'game' ? (
+                                    <FaGamepad className="h-5 w-5 text-white" />
+                                ) : null
+                            }
                         </span>
                         <span>{label}</span>
                         <svg className={`${isOpen ? 'transform rotate-180' : ''} w-4 h-4 ml-2`} viewBox="0 0 20 20" fill="currentColor">
@@ -37,19 +51,22 @@ const Dropdown = ({ label, items }) => {
                                         className={`${selectedItem && selectedItem.label === item.label ? 'bg-gray-700' : 'hover:bg-gray-700'} px-4 py-2`}
                                         onClick={() => handleItemClick(item)}
                                     >
-                                        <a href={item.href} className="block text-sm font-medium text-white hover:text-gray-200">
-                                            {item.label}
-                                        </a>
+                                        {item.label === "Sign Out" ? (
+                                            <button type="submit" onClick={handleSignOut} className="block text-sm font-medium text-white">{item.label}</button>
+                                        ) : (
+                                            <a href={item.href} className={`block text-sm font-medium text-white ${selectedItem && selectedItem.label === item.label ? 'selected' : ''}`}>
+                                                {item.label}
+                                            </a>
+                                        )}
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     )
                 }
-            </li >
+            </span >
         </>
     );
 };
 
 export default Dropdown;
-

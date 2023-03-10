@@ -2,9 +2,7 @@ import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '../../../lib/prismadb';
 import bcrypt from 'bcrypt';
-import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { signOut } from 'next-auth/react';
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -12,10 +10,6 @@ export default NextAuth({
     strategy: 'jwt',
   },
   providers: [
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // }),
     CredentialsProvider({
       name: 'Credentials',
       type: 'credentials',
@@ -39,16 +33,11 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role;
-      }
-      return token;
+      return { ...token, ...user };
     },
-    async session({ session, token }) {
-      if (token.role) {
-        session.role = token.role;
-      }
-      return session;
-    },
-  },
+    async session({ session, token, user }) {
+      session.user = token;
+      return session
+    }
+  }
 });
