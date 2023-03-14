@@ -15,17 +15,16 @@ model Game {
   title       String
   developer   String?  @db.VarChar(100)
   editor      String?  @db.VarChar(100)
-  releaseDate DateTime @db.Date
+  releaseDate Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  genre       String   @db.VarChar(255)
   link        String   @db.VarChar(255)
   description String?  @db.Text
   highlighted Boolean? @default(false)
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoryId  String
-  Videos      Video[]
-  Images      Image[]
+  genre       Genre    @relation(fields: [genreId], references: [id])
+  genreId     String
+  videos      Video[]
+  images      Image[]
 }
 
 model Video {
@@ -39,17 +38,14 @@ model Video {
 
 model Image {
   id        String   @id @default(uuid())
-  alt       String?
-  title     String?
   source    String
-  game      Game     @relation(fields: [gameId], references: [id])
   gameId    String
+  game      Game     @relation(fields: [gameId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  productId String?
 }
 
-model Category {
+model Genre {
   id   String @id @default(uuid())
   name String
   Game Game[]

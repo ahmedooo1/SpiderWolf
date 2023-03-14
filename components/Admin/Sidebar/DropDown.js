@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaGamepad } from "react-icons/fa";
 import { UserIcon } from '@heroicons/react/24/outline'
 import { signOut } from "next-auth/react"
+import Link from 'next/link';
 
 const Dropdown = ({ icone, label, items }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -54,9 +55,9 @@ const Dropdown = ({ icone, label, items }) => {
                                         {item.label === "Sign Out" ? (
                                             <button type="submit" onClick={handleSignOut} className="block text-sm font-medium text-white">{item.label}</button>
                                         ) : (
-                                            <a href={item.href} className={`block text-sm font-medium text-white ${selectedItem && selectedItem.label === item.label ? 'selected' : ''}`}>
+                                            <Link href={item.href} className={`block text-sm font-medium text-white ${selectedItem && selectedItem.label === item.label ? 'selected' : ''}`}>
                                                 {item.label}
-                                            </a>
+                                            </Link>
                                         )}
                                     </li>
                                 ))}
