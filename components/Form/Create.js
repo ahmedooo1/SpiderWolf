@@ -31,7 +31,7 @@ export default function Form({ fields, onSubmit, genres, onSelectedFileChange, s
                         ) : type === 'file' ? (
                             <>
                                 <label htmlFor={name}>
-                                    <input type="file" id={name} hidden onChange={onSelectedFileChange} />
+                                    <input type="file" id={name} hidden onChange={onSelectedFileChange} multiple />
                                     <div className="w-40 rounded flex items-center
                                     justify-center border-2 ">
 

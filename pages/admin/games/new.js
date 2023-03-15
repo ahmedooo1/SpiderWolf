@@ -53,24 +53,35 @@ const fields = [
 ];
 
 export default function NewGmae({ genres }) {
-    const [selectedImage, setSelectedImage] = useState();
-    const [selectedFile, setSelectedFile] = useState();
+    const [selectedImage, setSelectedImage] = useState([]);
+    const [selectedFile, setSelectedFile] = useState([]);
 
     const handleFileChange = (event) => {
         if (event.target.files) {
-            const file = event.target.files[0];
-            setSelectedImage(URL.createObjectURL(file));
-            setSelectedFile(file);
+            const files = event.target.files;
+            const imagesArray = [];
+
+            for (let i = 0; i < files.length; i++) {
+                imagesArray.push(URL.createObjectURL(files[i]));
+            }
+
+            // selectedImage(imagesArray);
+            setSelectedFile(files);
         }
     };
 
     const onSubmit = async (data) => {
         const formData = new FormData();
-        formData.append('image', selectedFile);
-        formData.append('data', JSON.stringify(data));
+        const images = selectedFile;
+
+        for (let i = 0; i < images.length; i++) {
+            formData.append("image", images[i]);
+        }
+        formData.append("data", JSON.stringify(data));
+
         console.log(formData)
         axios.post(`/api/admin/games/new/`, formData)
-            .then((response) => {
+            .then(() => {
                 toast.success('Game created successfully');
             })
             .catch((error) => {
