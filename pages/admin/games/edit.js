@@ -6,8 +6,7 @@ import AdminLayout from "@/layouts/admin/AdminLayout";
 import Form from '@/components/Form/Create';
 import { getError } from '@/utils/error';
 import client from "@/lib/prismadb";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 
 const fields = [
     {
@@ -52,9 +51,13 @@ const fields = [
     },
 ];
 
-export default function NewGmae({ genres }) {
+export default function EditGame({ game, genres }) {
     const [selectedImage, setSelectedImage] = useState([]);
     const [selectedFile, setSelectedFile] = useState([]);
+
+    useEffect(() => {
+        setSelectedImage(game.images);
+    }, [game]);
 
     const handleFileChange = (event) => {
         if (event.target.files) {
@@ -66,22 +69,22 @@ export default function NewGmae({ genres }) {
             }
 
             setSelectedFile(files);
+            setSelectedImage(imagesArray);
         }
     };
 
     const onSubmit = async (data) => {
         const formData = new FormData();
-        const images = selectedFile;
+        const images = selectedFile.length > 0 ? selectedFile : selectedImage.map((image) => image.url);
 
         for (let i = 0; i < images.length; i++) {
             formData.append("image", images[i]);
         }
         formData.append("data", JSON.stringify(data));
 
-        console.log(formData)
-        axios.post(`/api/admin/games/new/`, formData)
+        axios.put(`/api/admin/games/${game.id}`, formData)
             .then(() => {
-                toast.success('Game created successfully');
+                toast.success('Game updated successfully');
             })
             .catch((error) => {
                 toast.error(getError(error));
@@ -97,18 +100,31 @@ export default function NewGmae({ genres }) {
                 genres={genres}
                 onSelectedFileChange={handleFileChange}
                 selectedImage={selectedImage}
+                defaultValues={game}
             />
         </AdminLayout>
     )
+
 }
 
-
 export const getServerSideProps = async (context) => {
-    const data = await client.genre.findMany()
+    const gameId = context.params.id;
+    const gameData = await client.game.findUnique({
+        where: {
+            id: parseInt(gameId),
+        },
+        include: {
+            genre: true,
+            images: true,
+        },
+    });
+    const genres = await client.genre.findMany();
 
     return {
         props: {
-            genres: data
+            game: gameData,
+            genres: genres,
         },
     };
+
 };

@@ -1,17 +1,16 @@
-import Modal from '@/components/Modal/Modal'
-import { Switch } from '@headlessui/react'
-import Link from 'next/link'
-import { useState } from 'react';
+import { useState } from "react";
+import Modal from "@/components/Modal/Modal";
+import axios from "axios";
 import { toast } from "react-toastify";
 import { getError } from '@/utils/error';
-import axios from 'axios';
 
-export default function GamesEntity({ games }) {
+
+export default function GenresEntity({ genres }) {
     const [showModal, setShowModal] = useState(false);
 
     const handleDelete = async (id) => {
         try {
-            await axios.post(`/api/admin/games/delete/`, { id });
+            await axios.post(`/api/admin/genre/delete/`, { id });
             toast.success('Game deleted successfully');
         } catch (error) {
             toast.error(getError(error));
@@ -21,31 +20,23 @@ export default function GamesEntity({ games }) {
     };
     return (
         <>
-            {games.map((game) => (
-                <tr key={game.id}>
+            {genres.map((genre) => (
+                <tr key={genre.id}>
                     <td className="py-3 px-4 whitespace-nowrap">
                         <div className="flex items-center h-5">
                             <input
-                                id={`checkbox-${game.id}`}
+                                id={`checkbox-${genre.id}`}
                                 type="checkbox"
                                 className="text-blue-600 border-gray-200 rounded focus:ring-blue-500"
                             />
-                            <label htmlFor={`checkbox-${game.id}`} className="sr-only">
+                            <label htmlFor={`checkbox-${genre.id}`} className="sr-only">
                                 Checkbox
                             </label>
                         </div>
                     </td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{(game.id).slice(0, 5) + '...'}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{game.title}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{game.developer}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{game.editor}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{game.releaseDate}</td>
-
-
+                    <td className="py-3 px-6 whitespace-nowrap text-black">{(genre.id).slice(0, 5) + '...'}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-black">{genre.name}</td>
                     <td className="py-3 px-6 whitespace-nowrap text-right text-sm font-medium">
-                        <Link href={`games/${game.id}`} className="text-green-500 hover:text-green-700">
-                            Edit
-                        </Link>
                         <button
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => setShowModal(true)}
@@ -53,10 +44,11 @@ export default function GamesEntity({ games }) {
                             Delete
                         </button>
                     </td>
+                    
                     {
                         showModal && (
                             <Modal
-                                data={game}
+                                data={genre}
                                 setShowModal={setShowModal}
                                 showModal={showModal}
                                 handleDelete={handleDelete}

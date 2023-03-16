@@ -2,11 +2,30 @@ import AdminLayout from '@/layouts/admin/AdminLayout';
 import client from '@/lib/prismadb';
 import Image from 'next/image';
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react';
+import format from 'date-fns/format';
+import { toast } from "react-toastify";
+import { getError } from '@/utils/error';
+import axios from 'axios';
+import { useState } from 'react';
+import Modal from '@/components/Modal/Modal';
 
-export default function Game({ game, gameImages }) {
-    const [date, setdate] = useState()
+export default function Game({ game }) {
+    const [showModal, setShowModal] = useState(false);
     const router = useRouter()
+
+
+    const handleDelete = async () => {
+        try {
+            await axios.post(`/api/admin/games/delete/`, { id: game.id });
+            toast.success('Game deleted successfully');
+        } catch (error) {
+            toast.error(getError(error));
+        } finally {
+            setShowModal(false);
+            router.push("/admin/games");
+        }
+    };
+
 
     return (
         <AdminLayout>
@@ -14,10 +33,10 @@ export default function Game({ game, gameImages }) {
                 <div className="py-8">
                     <div className="pb-4">
                         <h1 className="text-4xl font-bold leading-tight text-gray-900">{game.title}</h1>
-                        {/* <p className="text-gray-600 text-sm">{game.genre.name}</p> */}
+                        <p className="text-gray-600 text-sm">{game.genre.name}</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {gameImages.map((image) => (
+                        {game.images.map((image) => (
                             <Image
                                 key={image.id}
                                 src={`/uploads/${image.source}`}
@@ -40,37 +59,63 @@ export default function Game({ game, gameImages }) {
                         <p className="text-gray-600 text-sm">Editor:</p>
                         <p className="text-gray-900">{game.editor}</p>
                     </div>
-                    {/* <div className="py-4">
+                    <div className="py-4">
                         <p className="text-gray-600 text-sm">Release date:</p>
-                        <p className="text-gray-900">{new Date(game.releaseDate).toLocaleDateString()}</p>
-                    </div> */}
+                        <p className="text-gray-900">{format(new Date(game.releaseDate), 'dd/MM/yyyy')}</p>
+                    </div>
                     <div className="py-4">
                         <p className="text-gray-600 text-sm">Link:</p>
                         <a href={game.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">{game.link}</a>
                     </div>
                 </div>
+                <div className="flex justify-end py-4">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Edit</button>
+                    {/* <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(game.id)}>Delete</button> */}
+                    <button
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => setShowModal(true)}
+                    >
+                        Delete
+                    </button>
+
+                </div>
             </div>
+            {
+                showModal && (
+                    <Modal
+                        data={game}
+                        setShowModal={setShowModal}
+                        showModal={showModal}
+                        handleDelete={handleDelete}
+                    />
+                )
+            }
         </AdminLayout>
     );
 }
 
 export async function getStaticProps({ params }) {
-    const gameData = await client.game.findUnique({ where: { id: params.id } });
-    const gameImageData = await client.image.findMany({ where: { gameId: gameData.id } })
+    const gameData = await client.game.findUnique({
+        where: { id: params.id },
+        include: {
+            images: true,
+            genre: true
+        }
+    });
 
-    const gameImages = gameImageData.map(gameImage => ({
-        ...gameImage,
-        createdAt: gameImage.createdAt.toString(),
-        updatedAt: gameImage.updatedAt.toString(),
-    }))
+    const gameImages = gameData.images.map(image => ({
+        ...image,
+        createdAt: image.createdAt.toISOString(),
+        updatedAt: image.updatedAt.toISOString()
+    }));
     return {
         props: {
             game: {
                 ...gameData,
                 createdAt: gameData.createdAt.toString(),
                 updatedAt: gameData.updatedAt.toString(),
+                images: gameImages,
             },
-            gameImages,
         },
     };
 }

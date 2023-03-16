@@ -30,7 +30,7 @@ model Game {
 model Video {
   id        String   @id @default(uuid())
   link      String
-  game      Game     @relation(fields: [gameId], references: [id])
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   gameId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,7 +40,7 @@ model Image {
   id        String   @id @default(uuid())
   source    String
   gameId    String
-  game      Game     @relation(fields: [gameId], references: [id])
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

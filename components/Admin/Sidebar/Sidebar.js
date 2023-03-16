@@ -46,6 +46,14 @@ const Sidebar = () => {
             { label: 'New Games', href: '/admin/games/new' },
           ]}
         />
+        <DropDown
+          icone=""
+          label="Genres"
+          items={[
+            { label: 'All Genres', href: '/admin/genre' },
+            { label: 'New Genre', href: '/admin/genre/new' },
+          ]}
+        />
       </ul>
       <div className="flex-grow"></div>
       <div className="p-4 text-center">
