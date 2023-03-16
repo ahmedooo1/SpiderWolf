@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { getError } from '@/utils/error';
 import axios from 'axios';
 import { useState } from 'react';
+import Link from 'next/link';
 import Modal from '@/components/Modal/Modal';
 
 export default function Game({ game }) {
@@ -69,8 +70,8 @@ export default function Game({ game }) {
                     </div>
                 </div>
                 <div className="flex justify-end py-4">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Edit</button>
-                    {/* <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(game.id)}>Delete</button> */}
+                    <Link href={`edit/${game.id}`} ><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Edit</button></Link>
+
                     <button
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                         onClick={() => setShowModal(true)}
@@ -108,6 +109,7 @@ export async function getStaticProps({ params }) {
         createdAt: image.createdAt.toISOString(),
         updatedAt: image.updatedAt.toISOString()
     }));
+    
     return {
         props: {
             game: {

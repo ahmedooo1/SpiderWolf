@@ -7,50 +7,7 @@ import Form from '@/components/Form/Create';
 import { getError } from '@/utils/error';
 import client from "@/lib/prismadb";
 import { useState } from "react";
-
-
-const fields = [
-    {
-        name: "title",
-        label: "Title",
-        type: "text",
-    },
-    {
-        name: "developer",
-        label: "Developer",
-        type: "text",
-    },
-    {
-        name: "editor",
-        label: "Editor",
-        type: "text",
-    },
-    {
-        name: "releaseDate",
-        label: "ReleaseDate",
-        type: "number",
-    },
-    {
-        name: "link",
-        label: "Link",
-        type: "url",
-    },
-    {
-        name: "description",
-        label: "Description",
-        type: "textarea",
-    },
-    {
-        name: "genre",
-        label: "Genre",
-        type: "select",
-    },
-    {
-        name: "images",
-        label: "Image",
-        type: "file",
-    },
-];
+import { gameFields } from "@/utils/fields";
 
 export default function NewGmae({ genres }) {
     const [selectedImage, setSelectedImage] = useState([]);
@@ -92,7 +49,7 @@ export default function NewGmae({ genres }) {
 
     return (
         <AdminLayout>
-            <Form fields={fields}
+            <Form fields={gameFields}
                 onSubmit={onSubmit}
                 genres={genres}
                 onSelectedFileChange={handleFileChange}
