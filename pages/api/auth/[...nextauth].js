@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { Role } from '@prisma/client';
 import prisma from '../../../lib/prismadb';
 import bcrypt from 'bcrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -26,18 +27,21 @@ export default NextAuth({
         return {
           email: user.email,
           name: user.pseudo,
-          image: user.image,
         };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
     },
     async session({ session, token, user }) {
       session.user = token;
       return session
     }
   }
+
 });

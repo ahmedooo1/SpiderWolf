@@ -94,7 +94,6 @@ export default function Game({ game }) {
         </AdminLayout>
     );
 }
-
 export async function getStaticProps({ params }) {
     const gameData = await client.game.findUnique({
         where: { id: params.id },
@@ -109,7 +108,8 @@ export async function getStaticProps({ params }) {
         createdAt: image.createdAt.toISOString(),
         updatedAt: image.updatedAt.toISOString()
     }));
-    
+
+    client.$disconnect
     return {
         props: {
             game: {

@@ -44,7 +44,7 @@ export default function NewGmae() {
 
 export const getServerSideProps = async (context) => {
     const data = await client.genre.findMany()
-
+    client.$disconnect
     return {
         props: {
             genres: data

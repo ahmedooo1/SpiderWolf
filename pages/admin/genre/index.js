@@ -27,6 +27,7 @@ export default function index({genres}) {
   )
 }
 
+
 export const getStaticProps = async () => {
   const genres = await client.genre.findMany()
 
