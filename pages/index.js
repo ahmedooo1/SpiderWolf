@@ -1,7 +1,5 @@
 import Head from 'next/head'
 import HomeComponent from '@/components/Home/Home'
-import { useSession } from 'next-auth/react'
-
 
 export default function Home() {
   

@@ -21,7 +21,7 @@ const Dropdown = ({ icone, label, items }) => {
 
     return (
         <>
-            <span className="relative border-t border-gray-800">
+            <span className="relative border-gray-800">
                 <button
                     className="w-full h-full flex items-center justify-between px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 "
                     onClick={() => setIsOpen(!isOpen)}

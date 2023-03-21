@@ -1,25 +1,28 @@
-import Footer from '@/components/Footer/Footer'
-import Header from '@/components/Header/Header'
-import { useRouter } from 'next/router'
-import { SessionProvider } from "next-auth/react"
-import '@/styles/globals.css'
+import { SessionProvider, getSession } from "next-auth/react";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
+import '@/styles/globals.css'
 
-export default function App({ Component, pageProps }) {
-  const router = useRouter()
-  const showAdmin = !router.asPath.startsWith("/admin/")
+export default function App({ Component, pageProps, router }) {
+  const showFooter = !router.asPath.startsWith("/admin/");
+  const showHeader = showFooter;
 
   if (Component.getLayout) {
-    return Component.getLayout(<Component {...pageProps} />)
+    return Component.getLayout(<Component {...pageProps} />);
   }
 
   return (
     <SessionProvider session={pageProps.session}>
-      {showAdmin && <Header />}
-      <ToastContainer limit={1} theme="dark" />
-      <Component {...pageProps} />
-      {showAdmin && <Footer />}
+      <div className="min-h-screen flex flex-col dark:bg-gray-900">
+        {showHeader && <Header />}
+        <ToastContainer limit={1} theme="dark" />
+        <div className="flex-grow">
+          <Component {...pageProps} router={router} />
+        </div>
+        {showFooter && <Footer />}
+      </div>
     </SessionProvider>
-  )
+  );
 }

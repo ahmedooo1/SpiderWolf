@@ -35,19 +35,20 @@ export default function GamesEntity({ games }) {
                             </label>
                         </div>
                     </td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{(game.id).slice(0, 5) + '...'}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{game.title}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{game.developer}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{game.editor}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{game.releaseDate}</td>
-
+                    <td className="py-3 px-6 whitespace-nowrap text-black text-center">{(game.id).slice(0, 5) + '...'}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-black text-center">{game.title}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-black text-center">{game.developer}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-black text-center">{game.editor}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-black text-center">{game.releaseDate}</td>
 
                     <td className="py-3 px-6 whitespace-nowrap text-right text-sm font-medium">
-                        <Link href={`games/${game.id}`} className="text-green-500 hover:text-green-700">
-                            Edit
+                        <Link href={`games/${game.id}`} className="text-green-500 hover:text-green-700 text-center">
+                            Voir info
                         </Link>
+                    </td>
+                    <td className="py-3 px-6 whitespace-nowrap text-right text-sm font-medium">
                         <button
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center"
                             onClick={() => setShowModal(true)}
                         >
                             Delete

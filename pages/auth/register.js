@@ -38,7 +38,7 @@ export default function register() {
     };
 
     return (
-        <div className="bg-gray-900 py-8 sm:py-12 lg:py-16">
+        <div className=" py-8 sm:py-12 lg:py-16">
             <div className="max-w-md mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 <div className="text-center">
                     <h2 className="text-lg font-medium text-gray-400 uppercase tracking-wide">Register</h2>

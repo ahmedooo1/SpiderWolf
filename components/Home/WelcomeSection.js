@@ -17,7 +17,7 @@ function WelcomeSection(){
   
 return(<>
 {/* la premiere section dans home page (avec l'auto slide) */}
-  <div className="flex flex-col justify-center items-center text-3xl font-bold h-full dark:bg-gray-900 ">
+  <div className="flex flex-col justify-center items-center text-3xl font-bold h-full">
       {[
         (<>
           <div className="flex flex-wrap justify-center w-11/12 relative m-10 ">

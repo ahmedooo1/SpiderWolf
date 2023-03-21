@@ -4,8 +4,6 @@ export default function Dashboard() {
   return (
     <AdminLayout>
       <h1>Dashboard</h1>
-      {/* Le reste du contenu de la page */}
     </AdminLayout>
   );
 }
-

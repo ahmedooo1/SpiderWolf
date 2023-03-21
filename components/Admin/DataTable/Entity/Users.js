@@ -17,9 +17,9 @@ export default function UsersEntity({ users }) {
                             </label>
                         </div>
                     </td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{(user.id).slice(0, 5) + '...'}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{user.pseudo}</td>
-                    <td className="py-3 px-6 whitespace-nowrap text-black">{user.email}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-black text-center">{(user.id).slice(0, 5) + '...'}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-black text-center">{user.pseudo}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-black text-center">{user.email}</td>
                     <td className="py-3 px-6 whitespace-nowrap">
                         <Switch
                             checked={user.isActivated}
@@ -35,14 +35,10 @@ export default function UsersEntity({ users }) {
                         </Switch>
                     </td>
                     <td className="py-3 px-6 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="#" className="text-green-500 hover:text-green-700">
-                            Edit
-                        </a>
+                       
                     </td>
                     <td className="py-3 px-6 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="#" className="text-red-500 hover:text-red-700">
-                            Delete
-                        </a>
+                        
                     </td>
                 </tr>
             ))}

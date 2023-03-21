@@ -1,5 +1,6 @@
 import Sidebar from "@/components/Admin/Sidebar/Sidebar";
 
+
 const AdminLayout = ({ children }) => {
   return (
     <div className="flex">
@@ -8,5 +9,6 @@ const AdminLayout = ({ children }) => {
     </div>
   );
 };
+
 
 export default AdminLayout;

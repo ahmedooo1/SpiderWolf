@@ -28,10 +28,9 @@ export default function users({ users }) {
     )
 }
 
-
 export const getStaticProps = async () => {
     const data = await client.user.findMany()
-    
+
     const users = data.map(user => ({
         ...user,
         createdAt: user.createdAt.toString(),

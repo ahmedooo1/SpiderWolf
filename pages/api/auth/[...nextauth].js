@@ -17,16 +17,15 @@ export default NextAuth({
       credentials: {},
       async authorize(credentials, req) {
         const user = await prisma.user.findFirst({ where: { email: credentials.email } });
-        if (!user) {
-          throw new Error('Invalid email or password');
-        }
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
-        if (!isValidPassword) {
+
+        if (!isValidPassword || !user) {
           throw new Error('Invalid email or password');
         }
         return {
           email: user.email,
           name: user.pseudo,
+          role: user.role
         };
       },
     }),
@@ -42,6 +41,10 @@ export default NextAuth({
       session.user = token;
       return session
     }
+  },
+  pages: {
+    signIn: '/auth/login',
+    error: '/',
   }
 
 });

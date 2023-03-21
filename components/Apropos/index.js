@@ -4,7 +4,7 @@ import cardimg1 from '../../public/Wolf3.png';
 function AproposComponent() {
   return (
     <>
-      <div className="bg-gray-900 h-screen flex flex-col items-center justify-center">
+      <div className="h-screen flex flex-col items-center justify-center">
 
         <div className=" w-1/2">
 
