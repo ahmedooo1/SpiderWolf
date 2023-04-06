@@ -22,6 +22,7 @@ export default NextAuth({
         if (!isValidPassword || !user) {
           throw new Error('Invalid email or password');
         }
+        prisma.$disconnect();
         return {
           email: user.email,
           name: user.pseudo,

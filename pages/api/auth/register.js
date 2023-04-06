@@ -59,7 +59,7 @@ export default async function userHandler(req, res) {
                 `,
             });
             console.log("Message sent: %s", info.messageId);
-
+            prisma.$disconnect()
             res.status(201).json({ message: 'User created successfully' });
 
             break;

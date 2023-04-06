@@ -28,6 +28,7 @@ export async function getStaticProps() {
         }
     });
 
+    client.$disconnect()
     const games = gameData.map((game) => {
         const images = game.images.map((image) => ({
             ...image,

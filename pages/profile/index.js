@@ -1,4 +1,5 @@
 import { getSession } from "next-auth/react";
+import Link from "next/link";
 import { FaUser, FaShieldAlt } from "react-icons/fa";
 
 export default function Profile({ session }) {
@@ -17,12 +18,12 @@ export default function Profile({ session }) {
               <p className="text-center text-gray-500">{session.user.email}</p>
             </div>
             <div className="px-6 pb-8 pt-4">
-              <a
-                href="#"
+              <Link
+                href="profile/edit"
                 className="block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2"
               >
                 Edit Profile
-              </a>
+              </Link>
               <a
                 href="#"
                 className="block bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
@@ -42,12 +43,12 @@ export default function Profile({ session }) {
               <p className="text-center text-gray-500">Your account is secure.</p>
             </div>
             <div className="px-6 pb-8 pt-4">
-              <a
-                href="#"
+              <Link
+                href="profile/edit/password"
                 className="block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               >
-                Logout
-              </a>
+                Edit Password
+              </Link>
             </div>
           </div>
         </div>

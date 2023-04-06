@@ -5,7 +5,6 @@ import AdminLayout from '@/layouts/admin/AdminLayout';
 import { genreColumns } from '@/utils/fielsEntity';
 
 export default function index({genres}) {
-  console.log(genres)
   return (
     <AdminLayout>
       <div className="container mx-auto mt-20 px-60">

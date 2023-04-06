@@ -3,6 +3,7 @@ import Modal from "@/components/Modal/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getError } from '@/utils/error';
+import Link from "next/link";
 
 
 export default function GenresEntity({ genres }) {
@@ -36,6 +37,11 @@ export default function GenresEntity({ genres }) {
                     </td>
                     <td className="py-3 px-6 whitespace-nowrap text-black text-center">{(genre.id).slice(0, 5) + '...'}</td>
                     <td className="py-3 px-6 whitespace-nowrap text-black text-center">{genre.name}</td>
+                    <td className="py-3 px-6 whitespace-nowrap text-right text-sm font-medium">
+                        <Link href={`genre/edit/${genre.id}`} className="text-green-500 hover:text-green-700 text-center">
+                            edit
+                        </Link>
+                    </td>
                     <td className="py-3 px-6 whitespace-nowrap text-right text-sm font-medium">
                         <button
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center"

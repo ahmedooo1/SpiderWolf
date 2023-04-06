@@ -1,7 +1,7 @@
 import client from '@/lib/prismadb';
 import formidable from 'formidable';
 import path from 'path';
-import fs from 'fs/promises';
+import { promises as fs } from 'fs';
 
 export const config = {
     api: {
@@ -11,7 +11,6 @@ export const config = {
 
 const handler = async (req, res) => {
     const gameId = req.query.id;
-    console.log(req.body);
     try {
         await fs.mkdir(path.join(process.cwd(), '/public/uploads'), { recursive: true });
     } catch (error) {
@@ -59,25 +58,30 @@ const handler = async (req, res) => {
         });
 
         const images = files.image;
-        const imagePromises = [];
+        if (images) {
+            const imagePromises = [];
 
-        for (const image of images) {
-            const source = image.newFilename;
+            for (const image of images) {
+                const source = image.newFilename;
 
-            imagePromises.push(
-                client.image.create({
-                    data: {
-                        source,
-                        gameId: updatedGame.id,
-                    },
-                })
-            );
+                imagePromises.push(
+                    client.image.create({
+                        data: {
+                            source,
+                            gameId: updatedGame.id,
+                        },
+                    })
+                );
+            }
+
+            await Promise.all(imagePromises);
         }
-
-        await Promise.all(imagePromises);
+        client.$disconnect()
         res.status(200).json({ updatedGame });
+
     });
 };
+
 
 export default async function handlerWrapper(req, res) {
     const { method } = req;

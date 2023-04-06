@@ -1,7 +1,35 @@
 import Image from "next/image";
 import cardimg2 from '../../public/spider1.png';
 
-function ContactComponent() {
+function ContactComponent({ user }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const { name, email, message } = formData;
+
+    try {
+      const res = await axios.post('/api/contact', {
+        name,
+        email,
+        message,
+      });
+
+      const { success } = res.data;
+      if (success) {
+        setSuccessMessage('Votre message a bien été envoyé!');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setErrorMessage('Une erreur est survenue. Veuillez réessayer.');
+      }
+    } catch (error) {
+      setErrorMessage(`Une erreur est survenue: ${error.message}`);
+    }
+  }
+
+
   return (
     <div className="max-h-full flex items-center justify-center w-full ">
       <div className="w-full max-w-xl">

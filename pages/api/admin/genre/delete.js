@@ -11,7 +11,7 @@ export default async function userHandler(req, res) {
                 where: { id },
             });
 
-            client.$disconnect;
+            client.$disconnect();
             res.status(201).json({ message: 'Delete Success' });
             break;
         default:

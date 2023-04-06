@@ -10,7 +10,6 @@ export const config = {
 };
 
 const handler = async (req, res) => {
-    console.log(req.body)
     try {
         await fs.mkdir(path.join(process.cwd(), '/public/uploads'), { recursive: true });
     } catch (error) {
@@ -68,7 +67,7 @@ const handler = async (req, res) => {
                 })
             );
         }
-
+        client.$disconnect()
         await Promise.all(imagePromises);
         res.status(201).json({ createdGame });
 
